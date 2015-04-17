@@ -45,7 +45,7 @@ func parents(lhs []*jsonNode, rhs []*jsonNode) []*jsonNode {
 	lhsHaystack := getHaystackFromNodeList(lhs)
 
 	for _, element := range rhs {
-		if nodeIsMemberOfHaystack(element.parent, lhsHaystack) {
+		if element.parent != nil && nodeIsMemberOfHaystack(element.parent, lhsHaystack) {
 			results = append(results, element)
 		}
 	}
@@ -77,7 +77,7 @@ func siblings(lhs []*jsonNode, rhs []*jsonNode) []*jsonNode {
 	}
 
 	for _, element := range rhs {
-		if nodeIsMemberOfHaystack(element.parent, parents) {
+		if element.parent != nil && nodeIsMemberOfHaystack(element.parent, parents) {
 			results = append(results, element)
 		}
 	}
