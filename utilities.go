@@ -71,7 +71,9 @@ func siblings(lhs []*jsonNode, rhs []*jsonNode) []*jsonNode {
 	parents := make(map[*simplejson.Json]*jsonNode, len(lhs))
 
 	for _, element := range lhs {
-		parents[element.parent.json] = element.parent
+		if element.parent != nil {
+			parents[element.parent.json] = element.parent
+		}
 	}
 
 	for _, element := range rhs {
