@@ -2,12 +2,13 @@ package jsonselect
 
 import (
 	"errors"
-	"github.com/coddingtonbear/go-simplejson"
 	"io/ioutil"
 	"log"
 	"regexp"
 	"strconv"
 	"strings"
+
+	"github.com/coddingtonbear/go-simplejson"
 )
 
 type Parser struct {
@@ -87,7 +88,9 @@ func (p *Parser) selectorProduction(tokens []*token, documentMap []*jsonNode, re
 	var value interface{}
 	var validator func(*jsonNode) bool
 	var validators = make([]func(*jsonNode) bool, 0, 10)
-	logger.Print("selectorProduction(", recursionDepth, ") starting with ", tokens[0], " - ", len(tokens), " tokens remaining.")
+	if len(tokens) > 0 {
+		logger.Print("selectorProduction(", recursionDepth, ") starting with ", tokens[0], " - ", len(tokens), " tokens remaining.")
+	}
 
 	_, matched, _ = p.peek(tokens, S_TYPE)
 	if matched {
@@ -433,7 +436,9 @@ func (p *Parser) pclassFuncProduction(value interface{}, tokens []*token, docume
 
 		return func(node *jsonNode) bool {
 			newMap := p.getFlooredDocumentMap(node)
-			logger.Print("pclassFuncProduction recursing into selectorProduction(-100) starting with ", args[0], "; ", len(args), " tokens remaining.")
+			if len(args) > 0 {
+				logger.Print("pclassFuncProduction recursing into selectorProduction(-100) starting with ", args[0], "; ", len(args), " tokens remaining.")
+			}
 			logger.IncreaseDepth()
 			rvals, _ := p.selectorProduction(args, newMap, -100)
 			logger.DecreaseDepth()
